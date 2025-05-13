@@ -14,9 +14,9 @@ const BestSeller = () => {
     },[products])
 
   return (
-    <div className='my-10'>
+    <div className='my-10 mx-10'>
       <div className='text-center text-3xl py-8'>
-        <Title text1={'BEST'} text2={'SELLERS'}/>
+        <Title text1={'TRENDING'} text2={'NOW'}/>
         <p className='w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600'>
         Explore our most-loved products that customers can't get enough of.
   These bestsellers are proven favorites—loved for their quality, style, and value.

@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
         animate="animate"
         exit="exit"
         variants={pageVariants}
-        className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]"
+        
       >
         <ToastContainer />
         <SearchBar />

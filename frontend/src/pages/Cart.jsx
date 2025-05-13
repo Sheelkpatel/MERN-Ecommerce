@@ -42,84 +42,89 @@ const Cart = () => {
   };
 
   return (
-    <div className='pt-14'>
-      <div className='text-2xl mb-3'>
+    <div className='pt-14 px-4 sm:px-8'>
+      <div className='text-2xl mb-6'>
         <Title text1={'YOUR'} text2={'CART'} />
       </div>
 
-      {/* If cart is empty, display message */}
       {cartData.length === 0 ? (
-        <div className="text-gray-600 text-lg mt-10 mb-10">
+        <div className="text-gray-600 text-lg text-center py-20">
           <p>Your cart is empty.</p>
         </div>
       ) : (
         <>
-          <div>
+          <div className="flex flex-col gap-6">
             {cartData.map((item, index) => {
               const productData = products.find((product) => product._id === item._id);
 
               return (
-                <div key={index} className='py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4'>
-                  <div className='flex items-start gap-6'>
-                    <img className='w-16 sm:w-20' src={productData.image[0]} alt="" />
+                <div key={index} className='border rounded-md p-4 grid gap-4 sm:grid-cols-3 items-center bg-white shadow-sm'>
+                  
+                  {/* Product Info */}
+                  <div className='flex gap-4 items-start'>
+                    <img src={productData.image[0]} alt="" className='w-20 h-20 object-cover rounded-md' />
                     <div>
-                      <p className='text-xs sm:text-lg font-medium'>{productData.name}</p>
-                      <div className='flex items-center gap-5 mt-2'>
-                        <p>{currency}{productData.price}</p>
-                        <p className='px-2 sm:px-3 sm:py-1 border bg-slate-50'>{item.size}</p>
+                      <p className='text-sm sm:text-base font-semibold'>{productData.name}</p>
+                      <div className='flex gap-3 mt-2 items-center text-sm'>
+                        <span>{currency}{productData.price}</span>
+                        <span className='bg-slate-100 px-2 py-0.5 rounded text-xs'>{item.size}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Quantity Control */}
-                  <div className='flex items-center'>
+                  {/* Quantity Controls */}
+                  <div className='flex items-center justify-center sm:justify-start gap-2'>
                     <button
                       onClick={() => handleDecrease(item._id, item.size, item.quantity)}
                       disabled={item.quantity === 1}
-                      className='border px-2 py-1 mr-2 disabled:opacity-50'
+                      className='border px-3 py-1 rounded disabled:opacity-40'
                     >
-                      {item.quantity === 1 ? '' : '-'}
+                      −
                     </button>
-
                     <input
+                      type="number"
+                      min={1}
+                      value={item.quantity}
                       onChange={(e) => {
                         const value = e.target.value === '' ? 0 : Number(e.target.value);
                         updateQuantity(item._id, item.size, value);
                       }}
-                      value={item.quantity}
-                      className='border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 text-center'
-                      type="number"
-                      min={1}
                       onFocus={(e) => e.target.select()}
+                      className='w-12 text-center border px-2 py-1 rounded'
                     />
-
                     <button
                       onClick={() => handleIncrease(item._id, item.size, item.quantity)}
-                      className='border px-2 py-1 ml-2'
+                      className='border px-3 py-1 rounded'
                     >
                       +
                     </button>
                   </div>
 
-                  {/* Remove Item Button */}
-                  <button onClick={() => handleDelete(item._id, item.size)} className='bg-black text-white px-8 py-3 text-sm'>
-                    Remove
-                  </button>
+                  {/* Remove Button */}
+                  <div className='flex justify-center sm:justify-end'>
+                    <button
+                      onClick={() => handleDelete(item._id, item.size)}
+                      className='bg-black text-white px-5 py-2 text-xs sm:text-sm rounded hover:bg-gray-800 transition'
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
               );
             })}
           </div>
 
-          <div className='flex justify-end my-20'>
-            <div className='w-full sm:w-[450px]'>
+          {/* Cart Summary & Checkout */}
+          <div className='flex justify-center sm:justify-end my-12'>
+            <div className='w-full sm:w-[400px]'>
               <CartTotal />
               <div className='w-full text-end'>
                 <button
                   onClick={() => navigate('/place-order')}
-                  disabled={cartData.length === 0} // Disable button if cart is empty
-                  className={`text-white text-sm my-8 px-8 py-3 ${
-                    cartData.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-black'
-                  }`}
+                  disabled={cartData.length === 0}
+                  className={`text-white w-full py-3 mt-6 rounded-md text-sm ${
+                    cartData.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:bg-gray-800'
+                  } transition`}
                 >
                   PROCEED TO CHECKOUT
                 </button>

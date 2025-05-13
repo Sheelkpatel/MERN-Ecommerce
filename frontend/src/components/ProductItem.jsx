@@ -13,11 +13,11 @@ const ProductItem = ({ id, image, name, price }) => {
     token,
   } = useContext(ShopContext);
 
-  const isInWishlist = wishlistItems.includes(id); // Check if this item is in the wishlist
+  const isInWishlist = wishlistItems.includes(id);
 
   const handleWishlistToggle = async (e) => {
-    e.preventDefault(); // Prevent navigation
-    e.stopPropagation(); // Prevent bubbling to Link wrapper
+    e.preventDefault();
+    e.stopPropagation();
 
     if (!token) {
       toast.warning("Please log in to use the wishlist.");
@@ -37,33 +37,42 @@ const ProductItem = ({ id, image, name, price }) => {
   };
 
   return (
-    <div className="text-gray-700 cursor-pointer" onClick={() => scrollTo(0, 0)}>
-      <div className="overflow-hidden relative">
-        {/* Wishlist Button */}
+    <div
+      className="group bg-white shadow-lg rounded-xl overflow-hidden transition-transform hover:scale-[1.02] duration-300"
+      onClick={() => scrollTo(0, 0)}
+    >
+      <div className="relative">
+        {/* Wishlist Icon */}
         <button
-          className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md z-10"
+          className="absolute top-2 right-2 bg-white p-1.5 rounded-full shadow hover:scale-105 transition z-10"
           onClick={handleWishlistToggle}
         >
           <Heart
             className={`w-5 h-5 ${
               isInWishlist
                 ? "text-pink-500 fill-pink-500 stroke-pink-500"
-                : "text-gray-600"
-            } hover:text-pink-500`}
+                : "text-gray-500"
+            }`}
           />
         </button>
 
-        {/* Product Link */}
-        <Link to={`/product/${id}`}>
-          <img
-            className="hover:scale-110 transition ease-in-out w-full"
-            src={image[0]}
-            alt={name}
-          />
-          <div className="pt-3 pb-1 text-sm">{name}</div>
-          <div className="text-sm font-medium">
-            {currency}
-            {price}
+        {/* Product Image */}
+        <Link to={`/product/${id}`} className="block">
+          <div className="overflow-hidden rounded-t-xl">
+            <img
+              src={image[0]}
+              alt={name}
+              className="w-full h-60 object-cover transform transition-transform duration-500 group-hover:scale-110"
+            />
+          </div>
+
+          {/* Product Details */}
+          <div className="px-4 py-3 text-center">
+            <h2 className="text-base font-semibold text-gray-800 truncate">{name}</h2>
+            <p className="mt-1 text-sm font-bold text-gray-700">
+              {currency}
+              {price}
+            </p>
           </div>
         </Link>
       </div>

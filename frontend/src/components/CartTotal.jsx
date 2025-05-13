@@ -1,39 +1,52 @@
-import React, { useContext } from 'react'
-import { ShopContext } from '../context/ShopContext'
+import React, { useContext } from 'react';
+import { ShopContext } from '../context/ShopContext';
 import Title from './Title';
 
 const CartTotal = () => {
+  const { currency, getCartAmount, navigate } = useContext(ShopContext);
+  const cartAmount = getCartAmount();
+  const delivery_fee = cartAmount > 0 ? 100 : 0;
+  const total = cartAmount === 0 ? 0 : cartAmount + delivery_fee;
 
-    const {currency,getCartAmount,navigate} = useContext(ShopContext);
-    const cartAmount = getCartAmount(); 
-    const delivery_fee = cartAmount > 0 ? 100 : 0;
-    
-    
   return (
-    <div className='w-full'>
-      <div className='text-2xl'>
-        <Title text1={'CART'} text2={'TOTALS'} />
+    <div className="w-full max-w-md mx-auto p-6 bg-white shadow-md rounded-md">
+      {/* Title */}
+      <div className="text-center mb-6">
+        <Title text1="CART" text2="TOTALS" />
       </div>
 
-      <div className='flex flex-col gap-2 mt-2 text-sm'>
-            <div className='flex justify-between'>
-                <p>Subtotal</p>
-                <p>{currency} {getCartAmount()}</p>
-            </div>
-            <hr />
-            <div className='flex justify-between'>
-                <p>Shipping Fee</p>
-                <p>{currency} {delivery_fee}</p>
-            </div>
-            <hr />
-            <div className='flex justify-between'>
-                <b>Total</b>
-                <b>{currency} {getCartAmount() === 0 ? 0 : getCartAmount() + delivery_fee}</b>
-            </div>
-            
+      {/* Cart Summary */}
+      <div className="space-y-4 text-gray-700 text-sm sm:text-base">
+        <div className="flex justify-between">
+          <span>Subtotal</span>
+          <span>
+            {currency} {cartAmount}
+          </span>
+        </div>
+
+        <div className="border-t border-gray-200"></div>
+
+        <div className="flex justify-between">
+          <span>Shipping Fee</span>
+          <span>
+            {currency} {delivery_fee}
+          </span>
+        </div>
+
+        <div className="border-t border-gray-200"></div>
+
+        <div className="flex justify-between font-semibold text-base">
+          <span>Total</span>
+          <span>
+            {currency} {total}
+          </span>
+        </div>
       </div>
+
+      {/* Checkout Button */}
+      
     </div>
-  )
-}
+  );
+};
 
-export default CartTotal
+export default CartTotal;

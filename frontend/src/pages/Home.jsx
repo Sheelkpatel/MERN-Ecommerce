@@ -7,7 +7,7 @@ import OurPolicy from '../components/OurPolicy'
 import { motion } from "framer-motion";
 const Home = () => {
   return (
-    <div className='mt-2'>
+    <div className='mt-2 '>
        <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}

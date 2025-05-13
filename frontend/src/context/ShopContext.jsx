@@ -76,44 +76,32 @@ const ShopContextProvider = (props) => {
   }, [products, wishlistItems]);
 
   // Wishlist: fetch
+// Inside ShopContext
 const getUserWishlist = async () => {
+  const storedToken = localStorage.getItem("token");
+  if (!storedToken || !user?._id) return;
+
   try {
-    // Retrieve the token from localStorage (or from wherever you're storing it)
-    const token = localStorage.getItem("token");
-
-    // If there's no token, alert the user or handle it accordingly
-    if (!token) {
-      toast.error("Please log in to view your wishlist.");
-      return;
-    }
-
-    // Send request to the backend with the token in the Authorization header
-    const res = await axios.get(`${backendUrl}/api/wishlist/`, {
-      headers: {
-        Authorization: `Bearer ${token}`, // Using Bearer token authentication
-      },
+    const res = await axios.get(`${backendUrl}/api/wishlist/${user._id}`, {
+      headers: { Authorization: `Bearer ${storedToken}` },
     });
-
-    // Check if the response is successful
     if (res.data.success) {
       const wishlist = res.data.wishlist;
-
-      // If the wishlist contains objects and the first item has an _id, set the data
-      if (wishlist.length > 0) {
-        if (typeof wishlist[0] === "object" && wishlist[0]._id) {
-          setWishlistData(wishlist); // Assuming setWishlistData is used to store the wishlist
-          setWishlistItems(wishlist.map((item) => item._id)); // Assuming setWishlistItems is used for wishlist item IDs
-        } else {
-          setWishlistItems(wishlist); // Handle case when wishlist only contains item IDs
-        }
+      if (Array.isArray(wishlist) && wishlist.length > 0) {
+        setWishlistData(wishlist);
+        setWishlistItems(wishlist.map((item) => item._id));
+      } else {
+        setWishlistData([]);
+        setWishlistItems([]);
       }
     }
   } catch (err) {
-    toast.error("Error fetching wishlist");
+    toast.error("Failed to fetch wishlist");
     console.error(err);
   }
 };
 
+    
 
   // Wishlist: add
   const addToWishlist = async (productId) => {

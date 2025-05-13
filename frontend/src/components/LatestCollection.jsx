@@ -13,9 +13,9 @@ const LatestCollection = () => {
     },[products])
 
   return (
-    <div className='my-10'>
+    <div className='my-10 mx-10'>
       <div className='text-center py-8 text-3xl'>
-          <Title text1={'LATEST'} text2={'COLLECTIONS'} />
+          <Title text1={'POPULAR'} text2={'PICKS'} />
           <p className='w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600'>
           Discover our handpicked selection of the latest arrivals—crafted with care, designed to inspire.
           From seasonal must-haves to timeless pieces, explore what’s trending and elevate your style with fresh new finds.

@@ -12,7 +12,7 @@ wishlistRouter.post('/remove', authUser,removeWishlist )
 
 
 // Get user wishlist
-wishlistRouter.get("/", authUser,getUserWishlist );
+wishlistRouter.get("/userID", authUser,getUserWishlist );
 
 
 
